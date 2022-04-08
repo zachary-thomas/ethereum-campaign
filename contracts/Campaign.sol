@@ -31,14 +31,17 @@ contract Campaign {
         approvers.push(msg.sender);
     }
 
-    function createRequest(string description, uint value, address recipient) public restricted {
+    function createRequest(string memory description, uint value, address recipient) public restricted {
         
-        Request newRequest = Request({
+        Request memory newRequest = Request({
             description: description,
             value: value,
             recipient: recipient,
             complete: false
         });
+
+        // Alternitive
+        // Request(description, value, recipient, false);
 
         requests.push(newRequest);
     }

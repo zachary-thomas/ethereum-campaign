@@ -1,6 +1,6 @@
 const assert = require('assert');
 const ganache = require('ganache-cli');
-// Constructor function, capitilized
+// Constructor function, capitalized
 const Web3 = require('web3');
 const { abi, evm } = require('../compile');
 //import Constants from '../constants.js'

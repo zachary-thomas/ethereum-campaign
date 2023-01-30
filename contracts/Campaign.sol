@@ -8,6 +8,9 @@ contract Campaign {
         uint value;
         address recipient;
         bool complete;
+        uint approvalCount;
+        // People that approved the request
+        mapping(address => bool) approvals;
     }
 
     Request[] public requests;

@@ -10,6 +10,7 @@ contract Campaign {
         bool complete;
         uint approvalCount;
         // People that approved the request
+        // Reference types don't need to be created below
         mapping(address => bool) approvals;
     }
 
@@ -47,7 +48,8 @@ contract Campaign {
             description: description,
             value: value,
             recipient: recipient,
-            complete: false
+            complete: false,
+            approvalCount: 0
         });
 
         // Alternitive

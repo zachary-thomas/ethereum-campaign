@@ -58,4 +58,17 @@ contract Campaign {
         requests.push(newRequest);
     }
 
+    function approveRequest(uint index) public{
+        // References real storage in contract
+        Request storage request = requests[index];
+        
+        require(approvers[msg.sender]);
+        // We want the approval to go through if they
+        // have not approved before
+        require(!request.approvals[msg.sender]);
+
+        request.approvals[msg.sender] = true;
+        request.approvalCount++;
+    }
+
 }

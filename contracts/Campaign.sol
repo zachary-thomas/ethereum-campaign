@@ -14,7 +14,9 @@ contract Campaign {
         mapping(address => bool) approvals;
     }
 
-    Request[] public requests;
+    uint numRequests;
+    mapping (uint => Request) public requests;
+
     address public manager;
     uint public minimumContribution;
     mapping(address => bool) public approvers;
@@ -44,18 +46,25 @@ contract Campaign {
         // Sees if person contributed
         // require(approvers[msg.sender]);
 
-        Request memory newRequest = Request({
-            description: description,
-            value: value,
-            recipient: recipient,
-            complete: false,
-            approvalCount: 0
-        });
+        // In old version of solidity
+        // Request memory newRequest = Request({
+        //     description: description,
+        //     value: value,
+        //     recipient: recipient,
+        //     complete: false,
+        //     approvalCount: 0
+        // });
+
+        Request storage r = requests[numRequests++];
+        r.description = description;
+        r.value = value;
+        r.recipient = recipient;
+        r.complete = false;
+        r.approvalCount = 0;
 
         // Alternitive
         // Request(description, value, recipient, false);
-
-        requests.push(newRequest);
+        //requests.push(newRequest);
     }
 
     function approveRequest(uint index) public{
@@ -69,6 +78,20 @@ contract Campaign {
 
         request.approvals[msg.sender] = true;
         request.approvalCount++;
+    }
+
+    function getRequest(uint index) public view returns(string memory description, 
+        uint value, 
+        address recipient,
+        bool complete,
+        uint approvalCount ) {
+
+            Request storage request = requests[index];
+            return (request.description, 
+                request.value, 
+                request.recipient, 
+                request.complete, 
+                request.approvalCount);
     }
 
 }

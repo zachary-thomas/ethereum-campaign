@@ -16,6 +16,7 @@ contract Campaign {
 
     uint numRequests;
     mapping (uint => Request) public requests;
+    uint public approversCount;
 
     address public manager;
     uint public minimumContribution;
@@ -37,6 +38,7 @@ contract Campaign {
 
         // only stores the boolean
         approvers[msg.sender] = true;
+        approvalCount++;
 
         // old way with array
         //approvers.push(msg.sender);
@@ -93,5 +95,19 @@ contract Campaign {
                 request.complete, 
                 request.approvalCount);
     }
+
+    function finalizeRequest(uint index) public restricted {
+        Request storage request = requests[index];
+        
+        // Require 50% approval
+        require(request.approvalCount > (approversCount / 2));
+
+        // Campaign is done
+        require(!request.complete);
+
+        request.recipient.transfer(request.value);
+        request.complete = true;
+    }
+
 
 }

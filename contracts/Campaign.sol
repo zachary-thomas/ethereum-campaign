@@ -82,20 +82,6 @@ contract Campaign {
         request.approvalCount++;
     }
 
-    function getRequest(uint index) public view returns(string memory description, 
-        uint value, 
-        address recipient,
-        bool complete,
-        uint approvalCount ) {
-
-            Request storage request = requests[index];
-            return (request.description, 
-                request.value, 
-                request.recipient, 
-                request.complete, 
-                request.approvalCount);
-    }
-
     function finalizeRequest(uint index) public restricted {
         Request storage request = requests[index];
         
@@ -109,5 +95,17 @@ contract Campaign {
         request.complete = true;
     }
 
+    function getRequest(uint index) public view returns(string memory description, 
+        uint value, 
+        address recipient,
+        bool complete,
+        uint approvalCount ) {
 
+            Request storage request = requests[index];
+            return (request.description, 
+                request.value, 
+                request.recipient, 
+                request.complete, 
+                request.approvalCount);
+    }
 }

@@ -1,5 +1,19 @@
 pragma solidity ^0.8.9;
 
+contract CampaignFactory{
+    address[] public deployedCampaigns;
+
+    function createCampaign(uint minimum) public{
+        // Need to send in user address
+        deployedCampaigns.push(new Campaign(minimum, msg.sender));
+    }
+
+    function getDeployedCampaigns() public view returns(address[]){
+        return deployedCampaigns;
+    }
+}
+
+
 contract Campaign {
 
     // Struct type
@@ -28,8 +42,11 @@ contract Campaign {
         _;
     }
 
-    constructor (uint minimum){
-        manager = msg.sender;
+    constructor (uint minimum, address creator){
+        // Before factory, which would set the
+        // address to the factory contract
+        // manager = msg.sender;
+        manager = creator;
         minimumContribution = minimum;
     }
 

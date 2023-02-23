@@ -55,7 +55,7 @@ contract Campaign {
 
         // only stores the boolean
         approvers[msg.sender] = true;
-        approvalCount++;
+        approversCount++;
 
         // old way with array
         //approvers.push(msg.sender);

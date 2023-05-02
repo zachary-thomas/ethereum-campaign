@@ -5,7 +5,8 @@ contract CampaignFactory{
 
     function createCampaign(uint minimum) public{
         // Need to send in user address
-        deployedCampaigns.push(new Campaign(minimum, msg.sender));
+        address newCampaign = new Campaign(minimum, msg.sender);
+        deployedCampaigns.push(newCampaign);
     }
 
     function getDeployedCampaigns() public view returns(address[] memory){

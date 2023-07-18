@@ -1,15 +1,17 @@
 pragma solidity ^0.8.9;
 
-contract CampaignFactory{
+contract CampaignFactory {
     address[] public deployedCampaigns;
 
-    function createCampaign(uint minimum) public{
+    function createCampaign(uint minimum) public {
         // Need to send in user address
-        address newCampaign = new Campaign(minimum, msg.sender);
-        deployedCampaigns.push(newCampaign);
+        Campaign newCampaign = new Campaign(minimum, msg.sender);
+        // old way
+        // address newCampaign = new Campaign(minimum, msg.sender);
+        deployedCampaigns.push(address(newCampaign));
     }
 
-    function getDeployedCampaigns() public view returns(address[] memory){
+    function getDeployedCampaigns() public view returns(address[] memory) {
         return deployedCampaigns;
     }
 }
@@ -109,7 +111,15 @@ contract Campaign {
         // Campaign is done
         require(!request.complete);
 
-        request.recipient.transfer(request.value);
+        
+        request.complete = true;
+
+        // Campaign is done
+        require(!request.complete, "Request completed already.");
+
+        // Old way 
+        // request.recipient.transfer(request.value);
+        payable(request.recipient).transfer(request.value);
         request.complete = true;
     }
 
